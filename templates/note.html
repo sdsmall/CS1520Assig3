@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script>
+setInterval(function() {
+	var note_body = "";
+	note_body = document.getElementById("notebody").value;
+	var noteID = document.getElementById("note_id").value;
+
+	var xmlHttp = createXmlHttp();
+
+	var paramString = 'body=' + escape(note_body);
+	paramString += '&';
+	paramString += 'id=' + noteID;
+
+	xmlHttp.open("POST", '/manualsave', true);
+	xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xmlHttp.send(paramString);
+
+	xmlHttp.onreadystatechange = function() {
+		if (xmlHttp.readyState == 4) {
+			var response = xmlHttp.responseText;
+			var splitResponse = response.split("|");
+
+			document.getElementById("dateheader").innerHTML = " " + splitResponse[0];
+			document.getElementById("datesaved").innerHTML = " " + splitResponse[0];
+			document.getElementById("timesaved").innerHTML = " " + splitResponse[1];
+		}
+	}
+}, 10000);
+</script>
+
+<textarea id="note_id" name="note_id" style="display: none;">{{id}}</textarea>
+
+<div id="titlediv">
+	<div id="edittitle" style="display: none;">
+		<input type="text" id="title" value="{{name}}">
+		<input type="button" value="Save Title" onclick="saveTitle();">
+	</div>
+	<div id="displaytitle">
+		<h3 id="dateheader" style="display: inline;">{{date}}</h3><h3 id="dateheader" style="display: inline;">:</h3><h3 id="titleheader" style="display: inline;">&nbsp{{name}}</h3>
+		<br>
+		<br>
+		<a href="javascript:void(0)" onclick="editTitle();">Edit Title</a>
+	</div>
+
+	<br>
+
+	<i>last saved at <p id="datesaved" style="display: inline;">{{date}}</p> <p id="timesaved" style="display: inline;">{{time}}</p></p>
+
+</div>
+<div id="bodydiv">
+
+	<textarea id="notebody" name="notebody" rows="32" cols="57">
+	{{body}}
+	</textarea>
+	<br>
+
+	<input type="button" value="Save It" onclick="saveBodyRedirect();">
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if user %}
+
+Hello, {{user.email}}!
+<br>
+Click <a href="/mynotes">here</a> to see notes.
+<br>
+Click <a href="{{logout}}">here</a> to log out.
+
+<br><br>
+
+{% else %}
+
+Click <a href="{{login}}">here</a> to log in.
+
+{% endif %}
+
+{% endblock %}

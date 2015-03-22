@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<h3>My Notes</h3>
+
+{% autoescape off %}
+{{queryString}}
+{% endautoescape %}
+
+<a href="/newnote">Add a note</a>
+{% endblock %}
